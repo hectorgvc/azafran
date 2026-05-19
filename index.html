@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>El Gran Azafrán Gourmet | Menú del Día</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Lato:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary:   #5C1A0A;
+      --accent:    #C9A84C;
+      --accent2:   #A07830;
+      --bg:        #FDFAF4;
+      --bg2:       #FFF6E8;
+      --bg3:       #5C1A0A;
+      --text:      #1A1A1A;
+      --muted:     #7A6558;
+      --border:    #E8DDD0;
+      --wa:        #25D366;
+      --font-h:    'Playfair Display', serif;
+      --font-b:    'Lato', sans-serif;
+      --r:         12px;
+      --rs:        8px;
+      --shadow:    0 2px 16px rgba(92,26,10,0.10);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font-b); background: var(--bg); color: var(--text); font-size: 16px; line-height: 1.65; }
+    h1,h2,h3,h4 { font-family: var(--font-h); line-height: 1.2; }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 14px 24px;
+      display: flex; align-items: center; justify-content: space-between;
+      transition: all 0.35s ease;
+    }
+    /* Estado inicial: sobre el hero oscuro */
+    nav .nav-name  { font-family: var(--font-h); font-size: 17px; font-weight: 700; color: #fff; transition: color 0.35s; }
+    nav .nav-tag   { font-size: 10px; color: rgba(255,255,255,0.6); letter-spacing: 0.1em; text-transform: uppercase; transition: color 0.35s; }
+    nav .nav-wa-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 8px 16px;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.35);
+      color: white; border-radius: 50px; font-size: 13px; font-weight: 600;
+      backdrop-filter: blur(6px);
+      transition: all 0.35s;
+    }
+    nav .nav-wa-btn:hover { background: var(--wa); border-color: var(--wa); }
+
+    /* Estado scrolled: fondo blanco */
+    nav.scrolled {
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      box-shadow: 0 2px 20px rgba(0,0,0,0.07);
+      padding: 10px 24px;
+    }
+    nav.scrolled .nav-name { color: var(--primary); }
+    nav.scrolled .nav-tag  { color: var(--muted); }
+    nav.scrolled .nav-wa-btn {
+      background: var(--wa); border-color: var(--wa); color: white;
+      backdrop-filter: none;
+    }
+    nav.scrolled .nav-wa-btn:hover { background: #1ebe5d; transform: translateY(-1px); }
+
+    .nav-brand { display: flex; align-items: center; gap: 10px; }
+    .nav-logo-img { width: 46px; height: 46px; object-fit: contain; filter: drop-shadow(0 1px 4px rgba(0,0,0,0.25)); }
+    .nav-right { display: flex; align-items: center; gap: 12px; }
+
+    /* ── HERO ── */
+    .hero {
+      background: var(--primary);
+      background-image: radial-gradient(ellipse at 80% 20%, rgba(201,168,76,0.18) 0%, transparent 55%);
+      padding: 100px 20px 52px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-logo {
+      width: 96px; height: 96px;
+      border-radius: 50%;
+      border: 3px solid rgba(201,168,76,0.55);
+      object-fit: contain;
+      display: block;
+      margin: 0 auto 22px;
+      filter: drop-shadow(0 4px 18px rgba(0,0,0,0.35));
+      background: rgba(255,255,255,0.06);
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: repeating-linear-gradient(
+        -45deg,
+        rgba(255,255,255,0.015) 0px, rgba(255,255,255,0.015) 1px,
+        transparent 1px, transparent 10px
+      );
+    }
+    .hero-date {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(201,168,76,0.15);
+      border: 1px solid rgba(201,168,76,0.4);
+      border-radius: 50px;
+      padding: 6px 16px;
+      font-size: 13px; font-weight: 600; color: var(--accent);
+      letter-spacing: 0.04em;
+      margin-bottom: 20px;
+    }
+    .hero h1 { font-size: clamp(2rem, 6vw, 3.2rem); color: #fff; font-weight: 900; }
+    .hero h1 span { color: var(--accent); }
+    .hero-sub {
+      margin-top: 12px;
+      font-size: 16px; color: rgba(255,255,255,0.7);
+      max-width: 480px; margin-left: auto; margin-right: auto;
+    }
+    .hero-price-badge {
+      display: inline-block;
+      margin-top: 20px;
+      background: var(--accent);
+      color: var(--primary);
+      font-family: var(--font-h); font-size: 18px; font-weight: 700;
+      padding: 8px 24px; border-radius: 50px;
+    }
+
+    /* ── MAIN LAYOUT ── */
+    .main-container {
+      max-width: 1100px; margin: 0 auto; padding: 40px 20px 80px;
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 28px;
+      align-items: start;
+    }
+    @media(max-width: 768px) { .main-container { grid-template-columns: 1fr; } }
+
+    /* ── MENU SECTIONS ── */
+    .menu-section { margin-bottom: 28px; }
+    .menu-section-header {
+      display: flex; align-items: center; gap: 10px;
+      padding: 14px 18px;
+      background: var(--primary);
+      border-radius: var(--r) var(--r) 0 0;
+      color: white;
+    }
+    .menu-section-header .section-icon {
+      width: 32px; height: 32px;
+      background: rgba(201,168,76,0.2);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .menu-section-header h3 { font-size: 15px; font-weight: 700; flex: 1; }
+    .menu-section-header .section-badge {
+      font-size: 11px; font-weight: 600;
+      background: rgba(201,168,76,0.25); color: var(--accent);
+      border-radius: 20px; padding: 3px 10px;
+      border: 1px solid rgba(201,168,76,0.3);
+    }
+    .menu-options {
+      background: white;
+      border: 1px solid var(--border);
+      border-top: none;
+      border-radius: 0 0 var(--r) var(--r);
+      padding: 12px;
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 8px;
+    }
+    .menu-option {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--rs);
+      cursor: pointer;
+      transition: all 0.15s;
+      user-select: none;
+    }
+    .menu-option:hover { border-color: var(--accent); background: var(--bg2); }
+    .menu-option input[type="radio"],
+    .menu-option input[type="checkbox"] { display: none; }
+    .option-indicator {
+      width: 18px; height: 18px; flex-shrink: 0;
+      border: 2px solid var(--border);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.15s;
+    }
+    .menu-option input[type="checkbox"] ~ .option-indicator { border-radius: 5px; }
+    .option-indicator::after {
+      content: '';
+      width: 8px; height: 8px;
+      background: var(--accent); border-radius: 50%;
+      opacity: 0; transform: scale(0);
+      transition: all 0.15s;
+    }
+    .menu-option input[type="checkbox"] ~ .option-indicator::after { border-radius: 2px; }
+    .menu-option.selected {
+      border-color: var(--accent);
+      background: rgba(201,168,76,0.06);
+    }
+    .menu-option.selected .option-indicator {
+      border-color: var(--accent);
+      background: var(--accent);
+    }
+    .menu-option.selected .option-indicator::after { opacity: 1; transform: scale(1); background: white; }
+    .option-label { font-size: 14px; font-weight: 500; color: var(--text); }
+    .no-items { font-size: 13px; color: var(--muted); text-align: center; padding: 16px; font-style: italic; }
+
+    /* ── ESPECIALES ── */
+    .especiales-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 12px;
+      background: white;
+      border: 1px solid var(--border); border-top: none;
+      border-radius: 0 0 var(--r) var(--r);
+      padding: 14px;
+    }
+    .especial-card {
+      border: 1.5px solid var(--border);
+      border-radius: var(--rs);
+      padding: 14px;
+      cursor: pointer;
+      transition: all 0.15s;
+      position: relative;
+    }
+    .especial-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 4px 16px rgba(201,168,76,0.15); }
+    .especial-card.selected { border-color: var(--accent); background: rgba(201,168,76,0.06); }
+    .especial-card input { display: none; }
+    .especial-nombre { font-family: var(--font-h); font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+    .especial-desc { font-size: 12px; color: var(--muted); margin-bottom: 8px; }
+    .especial-precio {
+      font-size: 16px; font-weight: 700; color: var(--accent2);
+      font-family: var(--font-h);
+    }
+    .especial-star {
+      position: absolute; top: 10px; right: 10px;
+      color: var(--accent); width: 16px; height: 16px;
+    }
+
+    /* ── NOTAS ── */
+    .notas-section {
+      background: white; border: 1px solid var(--border);
+      border-radius: var(--r); padding: 16px; margin-bottom: 28px;
+    }
+    .notas-label { font-size: 13px; font-weight: 600; color: var(--muted); margin-bottom: 8px; display: block; text-transform: uppercase; letter-spacing: 0.08em; }
+    .notas-input {
+      width: 100%; padding: 10px 14px;
+      border: 1.5px solid var(--border); border-radius: var(--rs);
+      font-family: var(--font-b); font-size: 14px; color: var(--text);
+      resize: none; outline: none; transition: border-color 0.2s;
+    }
+    .notas-input:focus { border-color: var(--accent); }
+
+    /* ── ORDER SIDEBAR ── */
+    .order-sidebar {
+      position: sticky; top: 80px;
+    }
+    .order-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+    .order-header {
+      background: var(--primary); color: white;
+      padding: 16px 20px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .order-header h3 { font-size: 16px; font-weight: 700; }
+    .order-header .order-count {
+      margin-left: auto;
+      background: var(--accent); color: var(--primary);
+      font-size: 12px; font-weight: 700;
+      width: 22px; height: 22px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .order-body { padding: 16px; min-height: 120px; }
+    .order-empty {
+      text-align: center; padding: 24px 0;
+      color: var(--muted); font-size: 14px; font-style: italic;
+    }
+    .order-row {
+      display: flex; align-items: flex-start; gap: 8px;
+      padding: 6px 0;
+      border-bottom: 1px dashed var(--border);
+      font-size: 13px;
+      animation: fadeIn 0.2s ease;
+    }
+    .order-row:last-child { border-bottom: none; }
+    .order-row-cat {
+      font-size: 10px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.08em; color: var(--accent2);
+      min-width: 80px;
+    }
+    .order-row-val { color: var(--text); font-weight: 500; flex: 1; }
+    .order-footer { padding: 14px 16px; border-top: 1px solid var(--border); background: var(--bg); }
+    .order-price-row {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 12px;
+    }
+    .order-price-label { font-size: 13px; color: var(--muted); }
+    .order-price-val { font-family: var(--font-h); font-size: 22px; font-weight: 700; color: var(--primary); }
+    .btn-wa-order {
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      width: 100%; padding: 14px;
+      background: var(--wa); color: white;
+      border: none; border-radius: var(--rs);
+      font-family: var(--font-b); font-size: 15px; font-weight: 700;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .btn-wa-order:hover { background: #1ebe5d; transform: translateY(-1px); }
+    .btn-wa-order:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+    .order-note { font-size: 11px; color: var(--muted); text-align: center; margin-top: 8px; }
+
+    /* ── BANK INFO ── */
+    .bank-section {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--r); padding: 20px;
+      margin-top: 16px;
+    }
+    .bank-title {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 13px; font-weight: 700; color: var(--primary);
+      text-transform: uppercase; letter-spacing: 0.1em;
+      margin-bottom: 14px;
+    }
+    .bank-item {
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 10px;
+      background: white; border: 1px solid var(--border);
+      border-radius: var(--rs); margin-bottom: 8px;
+    }
+    .bank-logo {
+      width: 36px; height: 36px; border-radius: 8px;
+      background: var(--primary); color: white;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 800; flex-shrink: 0;
+    }
+    .bank-details { flex: 1; }
+    .bank-name { font-size: 13px; font-weight: 700; color: var(--text); }
+    .bank-number { font-size: 15px; font-weight: 600; color: var(--primary); font-family: monospace; letter-spacing: 0.05em; }
+    .bank-cedula { font-size: 11px; color: var(--muted); }
+    .bank-copy-btn {
+      display: inline-flex; align-items: center; gap: 5px;
+      margin-top: 5px; padding: 4px 10px;
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 20px; font-size: 11px; font-weight: 600;
+      color: var(--muted); cursor: pointer; transition: all 0.2s;
+      font-family: var(--font-b);
+    }
+    .bank-copy-btn:hover { border-color: var(--accent); color: var(--accent); background: rgba(201,168,76,0.06); }
+    .bank-copy-btn.copied { border-color: var(--success); color: var(--success); background: rgba(37,211,102,0.06); }
+
+    /* ── CONTACT SECTION ── */
+    .contact-section {
+      background: var(--primary);
+      background-image: radial-gradient(ellipse at 20% 80%, rgba(201,168,76,0.15) 0%, transparent 50%);
+      padding: 60px 20px; text-align: center;
+    }
+    .contact-section h2 { color: white; margin-bottom: 8px; }
+    .contact-section p { color: rgba(255,255,255,0.65); margin-bottom: 28px; }
+    .contact-chips {
+      display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;
+      margin-bottom: 28px;
+    }
+    .contact-chip {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 18px;
+      background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 50px; color: rgba(255,255,255,0.85); font-size: 14px;
+    }
+    .btn-wa-big {
+      display: inline-flex; align-items: center; gap: 12px;
+      padding: 16px 32px;
+      background: var(--wa); color: white;
+      border-radius: var(--r); font-size: 16px; font-weight: 700;
+      transition: all 0.2s;
+    }
+    .btn-wa-big:hover { background: #1ebe5d; transform: translateY(-2px); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #1A0A05; color: rgba(255,255,255,0.5);
+      padding: 30px 20px; text-align: center;
+    }
+    .footer-brand {
+      font-family: var(--font-h); font-size: 18px; color: var(--accent);
+      margin-bottom: 6px;
+    }
+    .footer-links {
+      display: flex; justify-content: center; gap: 16px; margin: 12px 0;
+    }
+    .footer-links a { font-size: 12px; color: rgba(255,255,255,0.4); transition: color 0.2s; }
+    .footer-links a:hover { color: var(--accent); }
+    .footer-copy { font-size: 11px; }
+
+    /* ── WA FLOAT ── */
+    .wa-float {
+      position: fixed; bottom: 28px; right: 28px;
+      width: 60px; height: 60px;
+      background: var(--wa); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 24px rgba(37,211,102,0.4);
+      z-index: 999; transition: transform 0.2s, box-shadow 0.2s;
+      animation: waPulse 3s infinite 3s;
+    }
+    .wa-float:hover { transform: scale(1.1); box-shadow: 0 6px 32px rgba(37,211,102,0.55); }
+    .wa-float svg { width: 28px; height: 28px; color: white; fill: white; stroke: white; }
+    .wa-tooltip {
+      position: absolute; right: 68px;
+      background: #1a1a1a; color: white;
+      font-size: 12px; font-weight: 600;
+      padding: 6px 12px; border-radius: 6px;
+      white-space: nowrap; opacity: 0; pointer-events: none;
+      transition: opacity 0.2s;
+    }
+    .wa-tooltip::after {
+      content: ''; position: absolute; left: 100%; top: 50%; transform: translateY(-50%);
+      border: 5px solid transparent; border-left-color: #1a1a1a;
+    }
+    .wa-float:hover .wa-tooltip { opacity: 1; }
+
+    /* ── MOBILE ORDER STICKY ── */
+    .mobile-order-bar {
+      display: none;
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 50;
+      background: var(--primary); padding: 10px 16px;
+      align-items: center; gap: 10px;
+      box-shadow: 0 -4px 20px rgba(0,0,0,0.25);
+    }
+    .mob-order-info { flex: 1; min-width: 0; }
+    .mob-order-title { font-size: 10px; color: rgba(255,255,255,0.55); text-transform: uppercase; letter-spacing: 0.06em; }
+    .mob-order-price { font-family: var(--font-h); font-size: 17px; font-weight: 700; color: var(--accent); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .mob-wa-btn {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 11px 18px;
+      background: var(--wa); color: white;
+      border: none; border-radius: var(--rs);
+      font-family: var(--font-b); font-size: 14px; font-weight: 700;
+      cursor: pointer; transition: all 0.2s; white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .mob-wa-btn:disabled { opacity: 0.4; }
+
+    /* ═══════════════════════════════
+       RESPONSIVE — MOBILE FIRST
+    ═══════════════════════════════ */
+    @media(max-width: 768px) {
+      /* Nav: compact, sin texto "Comida criolla" */
+      nav { padding: 10px 16px; }
+      nav.scrolled { padding: 8px 16px; }
+      .nav-logo-img { width: 38px; height: 38px; }
+      .nav-name  { font-size: 15px; }
+      .nav-tag   { display: none; }
+      .nav-wa-btn span { display: none; }   /* Solo ícono en móvil */
+      .nav-wa-btn { padding: 8px 11px; border-radius: 50%; width: 38px; height: 38px; justify-content: center; }
+
+      /* Hero: menos padding arriba */
+      .hero { padding: 82px 16px 40px; }
+      .hero-logo { width: 76px; height: 76px; margin-bottom: 16px; }
+      .hero h1 { font-size: 2.1rem; }
+      .hero-sub { font-size: 14px; }
+      .hero-price-badge { font-size: 15px; padding: 7px 20px; }
+
+      /* Main: single column, tighter padding */
+      .main-container { padding: 20px 12px 24px; gap: 16px; }
+
+      /* Menu options: 1 col on very small, 2 col on wider mobile */
+      .menu-options { grid-template-columns: 1fr 1fr; gap: 6px; padding: 10px; }
+      .menu-option  { padding: 9px 10px; }
+      .option-label { font-size: 13px; }
+
+      /* Especiales: 1 col */
+      .especiales-grid { grid-template-columns: 1fr; padding: 10px; gap: 8px; }
+
+      /* Menu section header: slightly smaller */
+      .menu-section-header { padding: 11px 14px; }
+      .menu-section-header h3 { font-size: 14px; }
+
+      /* Notas */
+      .notas-section { padding: 12px; }
+
+      /* Sidebar hidden → bottom bar visible */
+      .order-sidebar { display: none; }
+      .mobile-order-bar { display: flex; }
+      body { padding-bottom: 66px; }
+
+      /* WA float: above bottom bar */
+      .wa-float { bottom: 80px; right: 16px; width: 50px; height: 50px; }
+      .wa-float svg { width: 22px; height: 22px; }
+      .wa-tooltip { display: none; }
+
+      /* Contact section */
+      .contact-section { padding: 44px 16px; }
+      .contact-chips { gap: 8px; }
+      .contact-chip { font-size: 13px; padding: 8px 14px; }
+      .btn-wa-big { padding: 14px 24px; font-size: 15px; }
+
+      /* Bank section in sidebar — show inline below menu on mobile */
+      .bank-section-mobile { display: block !important; }
+    }
+
+    @media(max-width: 400px) {
+      .menu-options { grid-template-columns: 1fr; }
+      .hero-logo { width: 62px; height: 62px; margin-bottom: 12px; }
+      .hero h1 { font-size: 1.75rem; }
+      .nav-brand { gap: 8px; }
+    }
+
+    /* Bank section clone for mobile (shown below menu) */
+    .bank-section-mobile {
+      display: none;
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: var(--r); padding: 16px; margin-bottom: 20px;
+    }
+
+    @keyframes waPulse {
+      0%,100% { box-shadow: 0 4px 24px rgba(37,211,102,0.4); }
+      50% { box-shadow: 0 4px 40px rgba(37,211,102,0.7); }
+    }
+    @keyframes fadeIn { from { opacity: 0; transform: translateX(-6px); } to { opacity: 1; transform: none; } }
+
+    /* ── SECTION DIVIDER ── */
+    .divider-label {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 16px;
+    }
+    .divider-label span {
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.12em; color: var(--accent2); white-space: nowrap;
+    }
+    .divider-label::before, .divider-label::after {
+      content: ''; flex: 1; height: 1px; background: var(--border);
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="mainNav">
+  <div class="nav-brand">
+    <img src="azafran.png" alt="El Gran Azafrán Gourmet" class="nav-logo-img">
+    <div>
+      <div class="nav-name">El Gran Azafrán</div>
+      <div class="nav-tag">Comida Criolla y más</div>
+    </div>
+  </div>
+  <div class="nav-right">
+    <a href="https://wa.me/18495641828?text=Hola%2C%20quisiera%20hacer%20un%20pedido%20%F0%9F%8D%BD%EF%B8%8F" target="_blank" class="nav-wa-btn">
+      <i data-lucide="message-circle" style="width:15px;height:15px"></i>
+      <span>WhatsApp</span>
+    </a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <img src="azafran.png" alt="El Gran Azafrán Gourmet" class="hero-logo">
+  <div id="heroBadge" class="hero-date">
+    <i data-lucide="calendar" style="width:13px;height:13px"></i>
+    <span id="fechaHoy"></span>
+  </div>
+  <h1>Menú del <span>Día</span></h1>
+  <p class="hero-sub" id="mensajeDiario">¡Bienvenidos! Hoy tenemos el mejor menú criollo para ti 🍽️</p>
+  <div class="hero-price-badge">Plato del Día desde <span id="precioBadge">RD$150</span></div>
+</section>
+
+<!-- MAIN -->
+<div class="main-container">
+
+  <!-- LEFT: MENU BUILDER -->
+  <div id="menuBuilder">
+
+    <!-- BASES -->
+    <div class="menu-section" id="secBases">
+      <div class="menu-section-header">
+        <div class="section-icon"><i data-lucide="wheat" style="width:16px;height:16px;color:var(--accent)"></i></div>
+        <h3>Base del Plato</h3>
+        <span class="section-badge">Elige 1</span>
+      </div>
+      <div class="menu-options" id="basesContainer"></div>
+    </div>
+
+    <!-- CALDOS -->
+    <div class="menu-section" id="secCaldos">
+      <div class="menu-section-header">
+        <div class="section-icon"><i data-lucide="droplets" style="width:16px;height:16px;color:var(--accent)"></i></div>
+        <h3>Habichuelas / Guandules</h3>
+        <span class="section-badge">Opcional</span>
+      </div>
+      <div class="menu-options" id="caldosContainer"></div>
+    </div>
+
+    <!-- PROTEÍNAS -->
+    <div class="menu-section" id="secProteinas">
+      <div class="menu-section-header">
+        <div class="section-icon"><i data-lucide="beef" style="width:16px;height:16px;color:var(--accent)"></i></div>
+        <h3>Proteína</h3>
+        <span class="section-badge">Elige 1</span>
+      </div>
+      <div class="menu-options" id="proteinasContainer"></div>
+    </div>
+
+    <!-- GUARNICIONES -->
+    <div class="menu-section" id="secGuarniciones">
+      <div class="menu-section-header">
+        <div class="section-icon"><i data-lucide="salad" style="width:16px;height:16px;color:var(--accent)"></i></div>
+        <h3>Guarniciones</h3>
+        <span class="section-badge">Elige hasta 2</span>
+      </div>
+      <div class="menu-options" id="guarnicionesContainer"></div>
+    </div>
+
+    <!-- ESPECIALES -->
+    <div class="divider-label"><span>⭐ Platos Especiales</span></div>
+    <div class="menu-section" id="secEspeciales">
+      <div class="menu-section-header" style="background:var(--accent2)">
+        <div class="section-icon" style="background:rgba(255,255,255,0.15)">
+          <i data-lucide="star" style="width:16px;height:16px;color:white"></i>
+        </div>
+        <h3>Platos Especiales del Día</h3>
+        <span class="section-badge" style="background:rgba(255,255,255,0.15);color:white;border-color:rgba(255,255,255,0.2)">Precio aparte</span>
+      </div>
+      <div class="especiales-grid" id="especialesContainer"></div>
+    </div>
+
+    <!-- NOTAS -->
+    <div class="notas-section">
+      <label class="notas-label">📝 Notas para tu pedido (opcional)</label>
+      <textarea id="notasInput" class="notas-input" rows="2" placeholder="Ej: Sin cebolla, bien cocido, para llevar..."></textarea>
+    </div>
+
+    <!-- BANK INFO (mobile only — duplicate of sidebar) -->
+    <div class="bank-section bank-section-mobile">
+      <div class="bank-title">
+        <i data-lucide="credit-card" style="width:14px;height:14px;color:var(--primary)"></i>
+        Pago por Transferencia
+      </div>
+      <div class="bank-item">
+        <div class="bank-logo" style="background:#1a3a6b;font-size:9px">BHD</div>
+        <div class="bank-details">
+          <div class="bank-name">Banco BHD León</div>
+          <div class="bank-number">0300 9991 0025</div>
+          <div class="bank-cedula">Cédula: 001-0966174-4</div>
+          <button class="bank-copy-btn" onclick="copiarCuenta(this,'03009910025','0300 9991 0025')">
+            <i data-lucide="copy" style="width:11px;height:11px"></i> Copiar número
+          </button>
+        </div>
+      </div>
+      <div class="bank-item">
+        <div class="bank-logo" style="background:#2c5282;font-size:8px">RES</div>
+        <div class="bank-details">
+          <div class="bank-name">Banco de Reservas</div>
+          <div class="bank-number">9608 2506 34</div>
+          <div class="bank-cedula">Cédula: 001-0966174-4</div>
+          <button class="bank-copy-btn" onclick="copiarCuenta(this,'9608250634','9608 2506 34')">
+            <i data-lucide="copy" style="width:11px;height:11px"></i> Copiar número
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end menuBuilder -->
+
+  <!-- RIGHT: ORDER SIDEBAR -->
+  <div class="order-sidebar">
+    <div class="order-card">
+      <div class="order-header">
+        <i data-lucide="shopping-bag" style="width:18px;height:18px"></i>
+        <h3>Tu Pedido</h3>
+        <div class="order-count" id="orderCount">0</div>
+      </div>
+      <div class="order-body" id="orderBody">
+        <div class="order-empty">Selecciona los items<br>del menú para armar tu pedido</div>
+      </div>
+      <div class="order-footer">
+        <div class="order-price-row">
+          <span class="order-price-label">Total estimado</span>
+          <span class="order-price-val" id="orderTotal">RD$0</span>
+        </div>
+        <button class="btn-wa-order" id="btnEnviar" onclick="enviarPedido()" disabled>
+          <i data-lucide="message-circle" style="width:20px;height:20px;fill:white;stroke:white"></i>
+          Enviar por WhatsApp
+        </button>
+        <p class="order-note">📲 Se abrirá WhatsApp con tu pedido listo</p>
+      </div>
+    </div>
+
+    <!-- BANK INFO -->
+    <div class="bank-section">
+      <div class="bank-title">
+        <i data-lucide="credit-card" style="width:14px;height:14px;color:var(--primary)"></i>
+        Pago por Transferencia
+      </div>
+      <div class="bank-item">
+        <div class="bank-logo" style="background:#1a3a6b;font-size:9px">BHD</div>
+        <div class="bank-details">
+          <div class="bank-name">Banco BHD León</div>
+          <div class="bank-number">0300 9991 0025</div>
+          <div class="bank-cedula">Cédula: 001-0966174-4</div>
+          <button class="bank-copy-btn" onclick="copiarCuenta(this,'03009910025','0300 9991 0025')">
+            <i data-lucide="copy" style="width:11px;height:11px"></i> Copiar número
+          </button>
+        </div>
+      </div>
+      <div class="bank-item">
+        <div class="bank-logo" style="background:#2c5282;font-size:8px">RES</div>
+        <div class="bank-details">
+          <div class="bank-name">Banco de Reservas</div>
+          <div class="bank-number">9608 2506 34</div>
+          <div class="bank-cedula">Cédula: 001-0966174-4</div>
+          <button class="bank-copy-btn" onclick="copiarCuenta(this,'9608250634','9608 2506 34')">
+            <i data-lucide="copy" style="width:11px;height:11px"></i> Copiar número
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end main-container -->
+
+<!-- CONTACT SECTION -->
+<section class="contact-section">
+  <h2>¿Listo para ordenar?</h2>
+  <p>Escríbenos y te confirmamos tu pedido en minutos</p>
+  <div class="contact-chips">
+    <div class="contact-chip">
+      <i data-lucide="phone" style="width:14px;height:14px;color:var(--accent)"></i>
+      849-564-1828
+    </div>
+    <div class="contact-chip">
+      <i data-lucide="instagram" style="width:14px;height:14px;color:var(--accent)"></i>
+      @elgran_azafran_gourmet
+    </div>
+    <div class="contact-chip">
+      <i data-lucide="clock" style="width:14px;height:14px;color:var(--accent)"></i>
+      Lun–Sáb · 8:00am – 4:00pm
+    </div>
+  </div>
+  <a href="https://wa.me/18495641828?text=Hola%2C%20quisiera%20hacer%20un%20pedido%20%F0%9F%8D%BD%EF%B8%8F" target="_blank" class="btn-wa-big">
+    <i data-lucide="message-circle" style="width:22px;height:22px;fill:white;stroke:white"></i>
+    Escríbenos Ahora por WhatsApp
+  </a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">El Gran Azafrán Gourmet</div>
+  <div style="font-size:12px;margin-bottom:10px">Comida Criolla y más · República Dominicana</div>
+  <div class="footer-links">
+    <a href="https://wa.me/18495641828" target="_blank">WhatsApp</a>
+    <a href="https://instagram.com/elgran_azafran_gourmet" target="_blank">Instagram</a>
+    <a href="admin.html">Admin</a>
+  </div>
+  <div class="footer-copy">© 2026 El Gran Azafrán Gourmet · Todos los derechos reservados</div>
+</footer>
+
+<!-- WA FLOAT -->
+<a href="https://wa.me/18495641828?text=Hola%2C%20quisiera%20hacer%20un%20pedido%20%F0%9F%8D%BD%EF%B8%8F" class="wa-float" target="_blank" rel="noopener" aria-label="Contactar por WhatsApp">
+  <i data-lucide="message-circle"></i>
+  <span class="wa-tooltip">¿Pedimos? 🍽️</span>
+</a>
+
+<!-- MOBILE BOTTOM BAR -->
+<div class="mobile-order-bar" id="mobileBar">
+  <div class="mob-order-info">
+    <div class="mob-order-title">Tu pedido</div>
+    <div class="mob-order-price" id="mobTotal">Selecciona items</div>
+  </div>
+  <button class="mob-wa-btn" id="mobBtnEnviar" onclick="enviarPedido()" disabled>
+    <i data-lucide="message-circle" style="width:16px;height:16px;fill:white;stroke:white"></i>
+    Enviar
+  </button>
+</div>
+
+<script>
+/* ─────────────────────────────────────────────
+   SAFE LUCIDE HELPER
+───────────────────────────────────────────── */
+function safeIcons() {
+  if (typeof lucide !== 'undefined') safeIcons();
+}
+
+/* ─────────────────────────────────────────────
+   DEFAULT MENU DATA
+───────────────────────────────────────────── */
+const STORAGE_KEY = 'azafran_menu_v1';
+const WA_NUMBER   = '18495641828';
+
+const DEFAULT_MENU = {
+  mensaje:     '¡Bienvenidos! Hoy tenemos el mejor menú criollo para ti 🍽️',
+  precioPlato: '150',
+  categorias: {
+    bases: [
+      { id:'arroz-blanco',       nombre:'Arroz Blanco',       activo:true  },
+      { id:'moro-habichuelas',   nombre:'Moro de Habichuelas',activo:false },
+      { id:'moro-guandules',     nombre:'Moro de Guandules',  activo:false },
+      { id:'locrio-pollo',       nombre:'Locrio de Pollo',    activo:false },
+      { id:'locrio-cerdo',       nombre:'Locrio de Cerdo',    activo:false },
+    ],
+    caldos: [
+      { id:'habichuelas-negras', nombre:'Habichuelas Negras', activo:true  },
+      { id:'habichuelas-rojas',  nombre:'Habichuelas Rojas',  activo:false },
+      { id:'guandules-coco',     nombre:'Guandules con Coco', activo:false },
+      { id:'sin-caldo',          nombre:'Sin Habichuelas',    activo:true  },
+    ],
+    proteinas: [
+      { id:'pollo-guisado',  nombre:'Pollo Guisado',  activo:true  },
+      { id:'pollo-frito',    nombre:'Pollo Frito',    activo:true  },
+      { id:'cerdo-frito',    nombre:'Cerdo Frito',    activo:false },
+      { id:'cerdo-guisado',  nombre:'Cerdo Guisado',  activo:false },
+      { id:'res-guisada',    nombre:'Res Guisada',    activo:false },
+      { id:'pescado-frito',  nombre:'Pescado Frito',  activo:false },
+      { id:'salami-huevo',   nombre:'Salami y Huevo', activo:false },
+      { id:'chuleta',        nombre:'Chuleta Frita',  activo:false },
+    ],
+    guarniciones: [
+      { id:'ensalada',    nombre:'Ensalada Verde',  activo:true  },
+      { id:'tostones',    nombre:'Tostones',         activo:false },
+      { id:'maduros',     nombre:'Maduros',          activo:false },
+      { id:'papas-fritas',nombre:'Papas Fritas',     activo:false },
+      { id:'yuca',        nombre:'Yuca Hervida',     activo:false },
+      { id:'aguacate',    nombre:'Aguacate',         activo:false },
+    ],
+    especiales: [
+      { id:'sancocho',    nombre:'Sancocho',           precio:'200', descripcion:'Con sus viandas',           activo:false },
+      { id:'asopao',      nombre:'Asopao de Pollo',    precio:'180', descripcion:'Servido con pan',           activo:false },
+      { id:'mondongo',    nombre:'Mondongo',            precio:'200', descripcion:'Con viandas al gusto',      activo:false },
+      { id:'chivo',       nombre:'Chivo Liniero',      precio:'280', descripcion:'Especialidad de la casa',   activo:false },
+      { id:'pernil',      nombre:'Pernil Asado',       precio:'250', descripcion:'Con moro y ensalada',       activo:false },
+    ],
+  },
+};
+
+/* ─────────────────────────────────────────────
+   STATE
+───────────────────────────────────────────── */
+let menuData  = null;
+const order   = { base:null, caldo:null, proteina:null, guarniciones:[], especial:null };
+
+/* ─────────────────────────────────────────────
+   LOAD & RENDER
+───────────────────────────────────────────── */
+function loadMenu() {
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    return stored ? JSON.parse(stored) : DEFAULT_MENU;
+  } catch(e) { return DEFAULT_MENU; }
+}
+
+function buildRadioGroup(containerId, items, groupName, orderKey) {
+  const c = document.getElementById(containerId);
+  const active = items.filter(i => i.activo);
+  if (!active.length) { c.innerHTML = '<p class="no-items">No disponible hoy</p>'; return; }
+  c.innerHTML = active.map(it => `
+    <label class="menu-option" id="opt-${it.id}" onclick="selectRadio('${groupName}','${orderKey}','${it.id}','${it.nombre.replace(/'/g,'&apos;')}',this)">
+      <input type="radio" name="${groupName}" value="${it.id}">
+      <div class="option-indicator"></div>
+      <span class="option-label">${it.nombre}</span>
+    </label>
+  `).join('');
+}
+
+function buildCheckGroup(containerId, items, groupName) {
+  const c = document.getElementById(containerId);
+  const active = items.filter(i => i.activo);
+  if (!active.length) { c.innerHTML = '<p class="no-items">No disponible hoy</p>'; return; }
+  c.innerHTML = active.map(it => `
+    <label class="menu-option" id="opt-${it.id}" onclick="toggleCheck('${it.id}','${it.nombre.replace(/'/g,'&apos;')}',this)">
+      <input type="checkbox" value="${it.id}">
+      <div class="option-indicator"></div>
+      <span class="option-label">${it.nombre}</span>
+    </label>
+  `).join('');
+}
+
+function buildEspeciales(items) {
+  const c = document.getElementById('especialesContainer');
+  const active = items.filter(i => i.activo);
+  if (!active.length) {
+    c.innerHTML = '<p class="no-items" style="padding:20px;grid-column:1/-1">No hay platos especiales hoy. ¡Mañana sí!</p>';
+    document.getElementById('secEspeciales').style.opacity = '0.6';
+    return;
+  }
+  c.innerHTML = active.map(it => `
+    <label class="especial-card" id="esp-${it.id}" onclick="selectEspecial('${it.id}','${it.nombre.replace(/'/g,'&apos;')}','${it.precio}',this)">
+      <input type="radio" name="especial" value="${it.id}">
+      <i data-lucide="star" class="especial-star"></i>
+      <div class="especial-nombre">${it.nombre}</div>
+      <div class="especial-desc">${it.descripcion}</div>
+      <div class="especial-precio">RD$${it.precio}</div>
+    </label>
+  `).join('');
+  safeIcons();
+}
+
+function init() {
+  menuData = loadMenu();
+
+  // Date
+  const now = new Date();
+  document.getElementById('fechaHoy').textContent = now.toLocaleDateString('es-DO',{weekday:'long',day:'numeric',month:'long'});
+
+  // Texts
+  document.getElementById('mensajeDiario').textContent = menuData.mensaje;
+  document.getElementById('precioBadge').textContent = `RD$${menuData.precioPlato}`;
+
+  // Build categories
+  buildRadioGroup('basesContainer',        menuData.categorias.bases,        'base',     'base');
+  buildRadioGroup('caldosContainer',       menuData.categorias.caldos,       'caldo',    'caldo');
+  buildRadioGroup('proteinasContainer',    menuData.categorias.proteinas,    'proteina', 'proteina');
+  buildCheckGroup('guarnicionesContainer', menuData.categorias.guarniciones, 'guarn');
+  buildEspeciales(menuData.categorias.especiales);
+
+  safeIcons();
+  updateOrderUI();
+}
+
+/* ─────────────────────────────────────────────
+   SELECTION HANDLERS
+───────────────────────────────────────────── */
+function selectRadio(groupName, orderKey, id, nombre, el) {
+  // Clear all in group
+  document.querySelectorAll(`input[name="${groupName}"]`).forEach(inp => {
+    inp.closest('.menu-option')?.classList.remove('selected');
+  });
+  el.classList.add('selected');
+  el.querySelector('input').checked = true;
+  order[orderKey] = { id, nombre };
+  updateOrderUI();
+}
+
+function toggleCheck(id, nombre, el) {
+  const MAX_GUARN = 2;
+  const exists = order.guarniciones.findIndex(g => g.id === id);
+  if (exists >= 0) {
+    order.guarniciones.splice(exists, 1);
+    el.classList.remove('selected');
+  } else {
+    if (order.guarniciones.length >= MAX_GUARN) {
+      // Remove oldest
+      const oldId = order.guarniciones.shift().id;
+      document.getElementById(`opt-${oldId}`)?.classList.remove('selected');
+    }
+    order.guarniciones.push({ id, nombre });
+    el.classList.add('selected');
+  }
+  updateOrderUI();
+}
+
+function selectEspecial(id, nombre, precio, el) {
+  if (order.especial && order.especial.id === id) {
+    order.especial = null;
+    el.classList.remove('selected');
+  } else {
+    document.querySelectorAll('input[name="especial"]').forEach(inp => {
+      inp.closest('.especial-card')?.classList.remove('selected');
+    });
+    order.especial = { id, nombre, precio };
+    el.classList.add('selected');
+    el.querySelector('input').checked = true;
+  }
+  updateOrderUI();
+}
+
+/* ─────────────────────────────────────────────
+   ORDER UI
+───────────────────────────────────────────── */
+function updateOrderUI() {
+  const body  = document.getElementById('orderBody');
+  const count = document.getElementById('orderCount');
+  const total = document.getElementById('orderTotal');
+  const btn   = document.getElementById('btnEnviar');
+  const mobBtn  = document.getElementById('mobBtnEnviar');
+  const mobTotal= document.getElementById('mobTotal');
+
+  const rows = [];
+  if (order.base)    rows.push({ cat:'Base',       val: order.base.nombre });
+  if (order.caldo && order.caldo.id !== 'sin-caldo') rows.push({ cat:'Habichuelas', val: order.caldo.nombre });
+  if (order.proteina)rows.push({ cat:'Proteína',   val: order.proteina.nombre });
+  if (order.guarniciones.length) rows.push({ cat:'Guarnición', val: order.guarniciones.map(g=>g.nombre).join(', ') });
+  if (order.especial) rows.push({ cat:'Especial',  val: `${order.especial.nombre} · RD$${order.especial.precio}` });
+
+  count.textContent = rows.length;
+
+  if (!rows.length) {
+    body.innerHTML = '<div class="order-empty">Selecciona los items<br>del menú para armar tu pedido</div>';
+    total.textContent = 'RD$0';
+    btn.disabled = true;
+    if(mobBtn) mobBtn.disabled = true;
+    if(mobTotal) mobTotal.textContent = 'Selecciona items';
+    return;
+  }
+
+  body.innerHTML = rows.map(r => `
+    <div class="order-row">
+      <span class="order-row-cat">${r.cat}</span>
+      <span class="order-row-val">${r.val}</span>
+    </div>
+  `).join('');
+
+  // Price
+  let precio = 0;
+  if (order.especial) precio = parseInt(order.especial.precio);
+  else if (order.base || order.proteina) precio = parseInt(menuData.precioPlato);
+  total.textContent = precio ? `RD$${precio}` : 'Consultar';
+  if(mobTotal) mobTotal.textContent = precio ? `RD$${precio}` : 'Listo ✓';
+
+  const hasMinimum = (order.base || order.proteina) || order.especial;
+  btn.disabled = !hasMinimum;
+  if(mobBtn) mobBtn.disabled = !hasMinimum;
+}
+
+/* ─────────────────────────────────────────────
+   WHATSAPP
+───────────────────────────────────────────── */
+function enviarPedido() {
+  let msg = `🍽️ *Pedido - El Gran Azafrán Gourmet*\n`;
+  const fecha = new Date().toLocaleDateString('es-DO',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  msg += `📅 ${fecha}\n\n`;
+
+  if (order.especial) {
+    msg += `⭐ *Plato Especial:* ${order.especial.nombre}\n`;
+    msg += `💰 *Precio:* RD$${order.especial.precio}\n`;
+  } else {
+    if (order.base)     msg += `🍚 *Base:* ${order.base.nombre}\n`;
+    if (order.caldo && order.caldo.id !== 'sin-caldo') msg += `🫘 *Habichuelas:* ${order.caldo.nombre}\n`;
+    if (order.proteina) msg += `🍗 *Proteína:* ${order.proteina.nombre}\n`;
+    if (order.guarniciones.length) msg += `🥗 *Guarniciones:* ${order.guarniciones.map(g=>g.nombre).join(', ')}\n`;
+    msg += `\n💰 *Precio:* RD$${menuData.precioPlato}\n`;
+  }
+
+  const notas = document.getElementById('notasInput').value.trim();
+  if (notas) msg += `\n📝 *Notas:* ${notas}\n`;
+
+  msg += `\n_Enviado desde la web 🌐_`;
+
+  const url = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`;
+  window.open(url, '_blank');
+}
+
+/* ─────────────────────────────────────────────
+   COPY ACCOUNT NUMBER
+───────────────────────────────────────────── */
+function copiarCuenta(btn, numero, display) {
+  navigator.clipboard.writeText(numero).then(() => {
+    btn.classList.add('copied');
+    btn.innerHTML = '<i data-lucide="check" style="width:11px;height:11px"></i> ¡Copiado!';
+    safeIcons();
+    setTimeout(() => {
+      btn.classList.remove('copied');
+      btn.innerHTML = `<i data-lucide="copy" style="width:11px;height:11px"></i> Copiar número`;
+      safeIcons();
+    }, 2500);
+  }).catch(() => {
+    // Fallback for older browsers
+    const ta = document.createElement('textarea');
+    ta.value = numero; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    btn.classList.add('copied');
+    btn.innerHTML = '<i data-lucide="check" style="width:11px;height:11px"></i> ¡Copiado!';
+    safeIcons();
+    setTimeout(() => {
+      btn.classList.remove('copied');
+      btn.innerHTML = `<i data-lucide="copy" style="width:11px;height:11px"></i> Copiar número`;
+      safeIcons();
+    }, 2500);
+  });
+}
+
+/* ─────────────────────────────────────────────
+   NAV SCROLL
+───────────────────────────────────────────── */
+window.addEventListener('scroll', () => {
+  document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 60);
+});
+
+// INIT
+document.addEventListener('DOMContentLoaded', init);
+</script>
+<!-- Lucide justo antes del cierre del body garantiza que el DOM ya existe -->
+<script src="https://unpkg.com/lucide@0.383.0/dist/umd/lucide.min.js" onload="if(typeof init==='function') safeIcons()"></script>
+</body>
+</html>

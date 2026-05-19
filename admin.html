@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin · El Gran Azafrán Gourmet</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Lato:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #5C1A0A;
+      --accent:  #C9A84C;
+      --bg:      #F5F0E8;
+      --bg2:     #FFFFFF;
+      --sidebar: #2A0A03;
+      --text:    #1A1A1A;
+      --muted:   #7A6558;
+      --border:  #E0D5C8;
+      --success: #22c55e;
+      --danger:  #ef4444;
+      --font-h:  'Playfair Display', serif;
+      --font-b:  'Lato', sans-serif;
+      --r:       10px;
+      --rs:      7px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font-b); background: var(--bg); color: var(--text); font-size: 15px; line-height: 1.6; }
+    h1,h2,h3 { font-family: var(--font-h); line-height: 1.2; }
+
+    /* ─── LOGIN ─── */
+    #loginScreen {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--primary);
+      background-image: radial-gradient(ellipse at 50% 30%, rgba(201,168,76,0.2) 0%, transparent 60%);
+    }
+    .login-box {
+      background: white; border-radius: 16px;
+      padding: 40px 36px; width: 100%; max-width: 380px;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.3);
+      text-align: center;
+    }
+    .login-logo {
+      width: 64px; height: 64px; border-radius: 50%;
+      background: var(--primary); border: 3px solid var(--accent);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 20px;
+      font-family: var(--font-h); font-size: 22px; font-weight: 900; color: var(--accent);
+    }
+    .login-box h2 { font-size: 22px; color: var(--primary); margin-bottom: 4px; }
+    .login-sub { font-size: 13px; color: var(--muted); margin-bottom: 28px; }
+    .login-field { margin-bottom: 14px; text-align: left; }
+    .login-field label { font-size: 12px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; display: block; margin-bottom: 6px; }
+    .login-input {
+      width: 100%; padding: 12px 14px;
+      border: 1.5px solid var(--border); border-radius: var(--r);
+      font-family: var(--font-b); font-size: 15px; color: var(--text);
+      outline: none; transition: border-color 0.2s;
+    }
+    .login-input:focus { border-color: var(--accent); }
+    .btn-login {
+      width: 100%; padding: 14px;
+      background: var(--primary); color: white;
+      border: none; border-radius: var(--r);
+      font-family: var(--font-b); font-size: 15px; font-weight: 700;
+      cursor: pointer; transition: all 0.2s; margin-top: 6px;
+    }
+    .btn-login:hover { background: #7a2510; }
+    .login-error {
+      background: #fef2f2; border: 1px solid #fecaca;
+      color: #dc2626; font-size: 13px; border-radius: var(--rs);
+      padding: 10px 14px; margin-top: 12px; display: none;
+    }
+
+    /* ─── DASHBOARD ─── */
+    #dashboard { display: none; min-height: 100vh; }
+
+    /* Sidebar */
+    .layout { display: flex; min-height: 100vh; }
+    .sidebar {
+      width: 240px; flex-shrink: 0;
+      background: var(--sidebar);
+      position: fixed; top: 0; left: 0; bottom: 0;
+      display: flex; flex-direction: column;
+      overflow-y: auto;
+    }
+    .sidebar-brand {
+      padding: 24px 20px 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .sidebar-logo {
+      display: flex; align-items: center; gap: 10px; margin-bottom: 4px;
+    }
+    .sidebar-logo-circle {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: var(--primary); border: 2px solid var(--accent);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-h); font-size: 14px; font-weight: 900; color: var(--accent);
+    }
+    .sidebar-brand-name { font-family: var(--font-h); font-size: 15px; color: rgba(255,255,255,0.9); font-weight: 700; }
+    .sidebar-brand-tag { font-size: 11px; color: rgba(255,255,255,0.35); }
+    .sidebar-nav { padding: 16px 12px; flex: 1; }
+    .sidebar-section-label {
+      font-size: 10px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.12em; color: rgba(255,255,255,0.25);
+      padding: 0 8px; margin-bottom: 6px; margin-top: 14px;
+    }
+    .sidebar-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 9px 10px; border-radius: 8px;
+      color: rgba(255,255,255,0.55); font-size: 13px; font-weight: 500;
+      cursor: pointer; transition: all 0.15s; margin-bottom: 2px;
+      border: 1px solid transparent;
+    }
+    .sidebar-item:hover { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.85); }
+    .sidebar-item.active { background: rgba(201,168,76,0.12); color: var(--accent); border-color: rgba(201,168,76,0.2); }
+    .sidebar-item svg { width: 16px; height: 16px; flex-shrink: 0; }
+    .sidebar-footer {
+      padding: 16px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .btn-logout {
+      display: flex; align-items: center; gap: 8px;
+      width: 100%; padding: 10px 12px;
+      background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.2);
+      color: #fca5a5; border-radius: 8px;
+      font-family: var(--font-b); font-size: 13px; font-weight: 600;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .btn-logout:hover { background: rgba(239,68,68,0.2); }
+    .btn-ver-web {
+      display: flex; align-items: center; gap: 8px;
+      width: 100%; padding: 10px 12px;
+      background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.2);
+      color: var(--accent); border-radius: 8px;
+      font-family: var(--font-b); font-size: 13px; font-weight: 600;
+      cursor: pointer; transition: all 0.2s; margin-bottom: 8px;
+      text-decoration: none;
+    }
+    .btn-ver-web:hover { background: rgba(201,168,76,0.2); }
+
+    /* Content area */
+    .content { margin-left: 240px; flex: 1; }
+    .topbar {
+      background: white; border-bottom: 1px solid var(--border);
+      padding: 16px 28px;
+      display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 10;
+    }
+    .topbar h1 { font-size: 20px; color: var(--primary); }
+    .topbar-date { font-size: 13px; color: var(--muted); display: flex; align-items: center; gap: 6px; }
+    .save-banner {
+      background: var(--success); color: white;
+      padding: 10px 28px; font-size: 13px; font-weight: 600;
+      display: flex; align-items: center; gap: 8px;
+      transform: translateY(-100%); transition: transform 0.3s;
+    }
+    .save-banner.show { transform: translateY(0); }
+    .main-content { padding: 28px; }
+
+    /* Panels */
+    .panel {
+      background: white; border: 1px solid var(--border);
+      border-radius: var(--r); margin-bottom: 20px;
+      overflow: hidden; display: none;
+    }
+    .panel.active { display: block; }
+    .panel-header {
+      padding: 16px 20px;
+      background: var(--primary);
+      display: flex; align-items: center; gap: 10px;
+    }
+    .panel-header h3 { color: white; font-size: 16px; }
+    .panel-header .ph-icon {
+      width: 30px; height: 30px; border-radius: 7px;
+      background: rgba(201,168,76,0.2);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .panel-body { padding: 20px; }
+
+    /* Cards for settings */
+    .settings-card {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: var(--rs); padding: 16px; margin-bottom: 12px;
+    }
+    .settings-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 8px; display: block; }
+    .settings-input {
+      width: 100%; padding: 10px 12px;
+      border: 1.5px solid var(--border); border-radius: var(--rs);
+      font-family: var(--font-b); font-size: 14px; color: var(--text);
+      outline: none; transition: border-color 0.2s; background: white;
+    }
+    .settings-input:focus { border-color: var(--accent); }
+    .settings-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    @media(max-width: 600px) { .settings-row { grid-template-columns: 1fr; } }
+
+    /* Toggle items */
+    .items-list { display: flex; flex-direction: column; gap: 6px; }
+    .item-row {
+      display: flex; align-items: center; gap: 12px;
+      padding: 10px 14px;
+      border: 1px solid var(--border); border-radius: var(--rs);
+      background: white; transition: all 0.15s;
+    }
+    .item-row.active-item { border-color: var(--accent); background: rgba(201,168,76,0.04); }
+    .item-row-name { flex: 1; font-size: 14px; font-weight: 500; }
+    .item-row-precio {
+      font-size: 13px; font-weight: 600; color: var(--accent);
+      min-width: 80px;
+    }
+    .toggle-switch { position: relative; display: inline-block; width: 42px; height: 24px; flex-shrink: 0; }
+    .toggle-switch input { opacity: 0; width: 0; height: 0; }
+    .toggle-slider {
+      position: absolute; cursor: pointer;
+      inset: 0; background: #ddd; border-radius: 24px;
+      transition: all 0.25s;
+    }
+    .toggle-slider::before {
+      content: ''; position: absolute;
+      width: 18px; height: 18px; border-radius: 50%;
+      left: 3px; top: 3px;
+      background: white; transition: all 0.25s;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+    }
+    .toggle-switch input:checked + .toggle-slider { background: var(--accent); }
+    .toggle-switch input:checked + .toggle-slider::before { transform: translateX(18px); }
+    .item-delete {
+      background: none; border: none; cursor: pointer;
+      color: #ddd; padding: 4px; border-radius: 4px;
+      transition: color 0.15s; display: flex; align-items: center;
+    }
+    .item-delete:hover { color: var(--danger); }
+
+    /* Add item form */
+    .add-item-form {
+      display: flex; gap: 8px; margin-top: 10px; align-items: center;
+    }
+    .add-input {
+      flex: 1; padding: 9px 12px;
+      border: 1.5px dashed var(--border); border-radius: var(--rs);
+      font-family: var(--font-b); font-size: 13px; color: var(--text);
+      outline: none; transition: border-color 0.2s; background: var(--bg);
+    }
+    .add-input:focus { border-color: var(--accent); border-style: solid; }
+    .btn-add {
+      padding: 9px 14px;
+      background: var(--primary); color: white;
+      border: none; border-radius: var(--rs);
+      font-family: var(--font-b); font-size: 13px; font-weight: 600;
+      cursor: pointer; white-space: nowrap; transition: all 0.15s;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .btn-add:hover { background: #7a2510; }
+
+    /* Action buttons */
+    .actions-bar {
+      display: flex; justify-content: flex-end; gap: 10px;
+      padding: 16px 20px;
+      border-top: 1px solid var(--border);
+      background: var(--bg);
+    }
+    .btn-save {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 11px 24px;
+      background: var(--primary); color: white;
+      border: none; border-radius: var(--rs);
+      font-family: var(--font-b); font-size: 14px; font-weight: 700;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .btn-save:hover { background: #7a2510; transform: translateY(-1px); }
+    .btn-reset {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 11px 20px;
+      background: transparent; color: var(--muted);
+      border: 1.5px solid var(--border); border-radius: var(--rs);
+      font-family: var(--font-b); font-size: 14px; font-weight: 600;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .btn-reset:hover { border-color: var(--primary); color: var(--primary); }
+
+    /* Mobile sidebar */
+    .mob-toggle {
+      display: none; position: fixed; top: 12px; left: 12px; z-index: 200;
+      background: var(--sidebar); border: none; border-radius: 8px;
+      padding: 8px; cursor: pointer;
+    }
+    @media(max-width: 768px) {
+      .mob-toggle { display: flex; }
+      .sidebar { transform: translateX(-100%); transition: transform 0.25s; z-index: 150; }
+      .sidebar.open { transform: translateX(0); }
+      .content { margin-left: 0; }
+      .topbar { padding-left: 60px; }
+    }
+
+    /* Inline editable fields */
+    .item-row { flex-wrap: wrap; }
+    .edit-field {
+      background: transparent; border: none; border-bottom: 1.5px dashed transparent;
+      font-family: var(--font-b); color: var(--text); font-size: 14px; font-weight: 500;
+      padding: 2px 4px; border-radius: 4px;
+      outline: none; transition: all 0.15s; width: 100%;
+      cursor: text;
+    }
+    .edit-field:hover  { border-bottom-color: var(--border); background: var(--bg); }
+    .edit-field:focus  { border-bottom-color: var(--accent); border-bottom-style: solid; background: #fffdf7; }
+    .edit-field-desc {
+      font-size: 12px; color: var(--muted); font-weight: 400;
+    }
+    .edit-field-precio {
+      width: 80px; text-align: right;
+      font-size: 13px; font-weight: 700; color: var(--accent);
+      border-bottom-color: transparent;
+    }
+    .edit-field-precio:hover { border-bottom-color: var(--accent); }
+    .edit-field-precio:focus { background: #fffdf7; }
+    .item-name-wrap { flex: 1; min-width: 0; }
+    .precio-wrap { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
+    .precio-prefix { font-size: 12px; color: var(--muted); font-weight: 600; }
+
+    /* Notification dot */
+    .nav-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--accent); margin-left: auto; flex-shrink: 0;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ════════════════════════════
+     LOGIN
+════════════════════════════ -->
+<div id="loginScreen">
+  <div class="login-box">
+    <img src="azafran.png" alt="El Gran Azafrán Gourmet" style="width:90px;height:90px;object-fit:contain;margin:0 auto 16px;display:block">
+    <h2>Panel de Administración</h2>
+    <p class="login-sub">El Gran Azafrán Gourmet</p>
+    <div class="login-field">
+      <label>Contraseña</label>
+      <input type="password" id="loginPass" class="login-input" placeholder="Ingresa tu clave" onkeydown="if(event.key==='Enter')doLogin()">
+    </div>
+    <button class="btn-login" onclick="doLogin()">Entrar al Panel</button>
+    <div class="login-error" id="loginError">Contraseña incorrecta. Inténtalo de nuevo.</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════
+     DASHBOARD
+════════════════════════════ -->
+<div id="dashboard">
+  <button class="mob-toggle" onclick="toggleSidebar()">
+    <i data-lucide="menu" style="width:20px;height:20px;color:white"></i>
+  </button>
+
+  <div class="layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <div class="sidebar-logo">
+          <img src="azafran.png" alt="Logo" style="width:44px;height:44px;object-fit:contain;filter:brightness(0) invert(1) opacity(0.9)">
+          <div>
+            <div class="sidebar-brand-name">Azafrán</div>
+            <div class="sidebar-brand-tag">Admin Panel</div>
+          </div>
+        </div>
+      </div>
+      <nav class="sidebar-nav">
+        <div class="sidebar-section-label">Menú</div>
+        <div class="sidebar-item active" onclick="showPanel('panelGeneral',this)">
+          <i data-lucide="settings-2"></i> Configuración General
+        </div>
+        <div class="sidebar-item" onclick="showPanel('panelBases',this)">
+          <i data-lucide="wheat"></i> Bases del Plato
+        </div>
+        <div class="sidebar-item" onclick="showPanel('panelCaldos',this)">
+          <i data-lucide="droplets"></i> Habichuelas / Guandules
+        </div>
+        <div class="sidebar-item" onclick="showPanel('panelProteinas',this)">
+          <i data-lucide="beef"></i> Proteínas
+        </div>
+        <div class="sidebar-item" onclick="showPanel('panelGuarniciones',this)">
+          <i data-lucide="salad"></i> Guarniciones
+        </div>
+        <div class="sidebar-item" onclick="showPanel('panelEspeciales',this)">
+          <i data-lucide="star"></i> Platos Especiales
+          <span class="nav-dot"></span>
+        </div>
+      </nav>
+      <div class="sidebar-footer">
+        <a href="index.html" target="_blank" class="btn-ver-web">
+          <i data-lucide="external-link" style="width:14px;height:14px"></i>
+          Ver Sitio Web
+        </a>
+        <button class="btn-logout" onclick="logout()">
+          <i data-lucide="log-out" style="width:14px;height:14px"></i>
+          Cerrar Sesión
+        </button>
+      </div>
+    </aside>
+
+    <!-- CONTENT -->
+    <main class="content">
+      <div class="save-banner" id="saveBanner">
+        <i data-lucide="check-circle" style="width:16px;height:16px"></i>
+        ¡Menú actualizado correctamente! Los clientes ya ven los cambios.
+      </div>
+
+      <div class="topbar">
+        <h1 id="pageTitle">Configuración General</h1>
+        <div class="topbar-date">
+          <i data-lucide="calendar" style="width:14px;height:14px"></i>
+          <span id="topbarDate"></span>
+        </div>
+      </div>
+
+      <div class="main-content">
+
+        <!-- ── PANEL GENERAL ── -->
+        <div class="panel active" id="panelGeneral">
+          <div class="panel-header">
+            <div class="ph-icon"><i data-lucide="settings-2" style="width:16px;height:16px;color:var(--accent)"></i></div>
+            <h3>Configuración General del Día</h3>
+          </div>
+          <div class="panel-body">
+            <div class="settings-card">
+              <label class="settings-label">📣 Mensaje de bienvenida (se muestra en el hero)</label>
+              <input type="text" id="inputMensaje" class="settings-input" placeholder="¡Hoy tenemos el mejor menú criollo!">
+            </div>
+            <div class="settings-row">
+              <div class="settings-card">
+                <label class="settings-label">💰 Precio del Plato del Día (RD$)</label>
+                <input type="number" id="inputPrecio" class="settings-input" placeholder="150" min="0">
+              </div>
+              <div class="settings-card">
+                <label class="settings-label">📱 WhatsApp (con código de país)</label>
+                <input type="text" id="inputWA" class="settings-input" placeholder="18495641828" readonly style="background:#f5f5f5;color:#999">
+                <p style="font-size:11px;color:var(--muted);margin-top:6px">Para cambiar el número edita el archivo directamente.</p>
+              </div>
+            </div>
+          </div>
+          <div class="actions-bar">
+            <button class="btn-save" onclick="saveAll()">
+              <i data-lucide="save" style="width:16px;height:16px"></i>
+              Guardar Cambios
+            </button>
+          </div>
+        </div>
+
+        <!-- ── PANEL BASES ── -->
+        <div class="panel" id="panelBases">
+          <div class="panel-header">
+            <div class="ph-icon"><i data-lucide="wheat" style="width:16px;height:16px;color:var(--accent)"></i></div>
+            <h3>Bases del Plato</h3>
+          </div>
+          <div class="panel-body">
+            <p style="font-size:13px;color:var(--muted);margin-bottom:14px">Activa los tipos de arroz / base disponibles hoy. El cliente elige uno.</p>
+            <div class="items-list" id="listBases"></div>
+            <div class="add-item-form">
+              <input type="text" class="add-input" id="newBase" placeholder="Ej: Arroz con maíz...">
+              <button class="btn-add" onclick="addItem('bases','newBase')">
+                <i data-lucide="plus" style="width:14px;height:14px"></i> Agregar
+              </button>
+            </div>
+          </div>
+          <div class="actions-bar">
+            <button class="btn-save" onclick="saveAll()">
+              <i data-lucide="save" style="width:16px;height:16px"></i> Guardar
+            </button>
+          </div>
+        </div>
+
+        <!-- ── PANEL CALDOS ── -->
+        <div class="panel" id="panelCaldos">
+          <div class="panel-header">
+            <div class="ph-icon"><i data-lucide="droplets" style="width:16px;height:16px;color:var(--accent)"></i></div>
+            <h3>Habichuelas / Guandules</h3>
+          </div>
+          <div class="panel-body">
+            <p style="font-size:13px;color:var(--muted);margin-bottom:14px">Activa las opciones de habichuelas/guandules disponibles hoy.</p>
+            <div class="items-list" id="listCaldos"></div>
+            <div class="add-item-form">
+              <input type="text" class="add-input" id="newCaldo" placeholder="Ej: Habichuelas blancas...">
+              <button class="btn-add" onclick="addItem('caldos','newCaldo')">
+                <i data-lucide="plus" style="width:14px;height:14px"></i> Agregar
+              </button>
+            </div>
+          </div>
+          <div class="actions-bar">
+            <button class="btn-save" onclick="saveAll()">
+              <i data-lucide="save" style="width:16px;height:16px"></i> Guardar
+            </button>
+          </div>
+        </div>
+
+        <!-- ── PANEL PROTEÍNAS ── -->
+        <div class="panel" id="panelProteinas">
+          <div class="panel-header">
+            <div class="ph-icon"><i data-lucide="beef" style="width:16px;height:16px;color:var(--accent)"></i></div>
+            <h3>Proteínas</h3>
+          </div>
+          <div class="panel-body">
+            <p style="font-size:13px;color:var(--muted);margin-bottom:14px">Activa las proteínas disponibles hoy. El cliente elige una.</p>
+            <div class="items-list" id="listProteinas"></div>
+            <div class="add-item-form">
+              <input type="text" class="add-input" id="newProteina" placeholder="Ej: Pollo asado...">
+              <button class="btn-add" onclick="addItem('proteinas','newProteina')">
+                <i data-lucide="plus" style="width:14px;height:14px"></i> Agregar
+              </button>
+            </div>
+          </div>
+          <div class="actions-bar">
+            <button class="btn-save" onclick="saveAll()">
+              <i data-lucide="save" style="width:16px;height:16px"></i> Guardar
+            </button>
+          </div>
+        </div>
+
+        <!-- ── PANEL GUARNICIONES ── -->
+        <div class="panel" id="panelGuarniciones">
+          <div class="panel-header">
+            <div class="ph-icon"><i data-lucide="salad" style="width:16px;height:16px;color:var(--accent)"></i></div>
+            <h3>Guarniciones</h3>
+          </div>
+          <div class="panel-body">
+            <p style="font-size:13px;color:var(--muted);margin-bottom:14px">El cliente puede elegir hasta 2 guarniciones activas.</p>
+            <div class="items-list" id="listGuarniciones"></div>
+            <div class="add-item-form">
+              <input type="text" class="add-input" id="newGuarn" placeholder="Ej: Batata hervida...">
+              <button class="btn-add" onclick="addItem('guarniciones','newGuarn')">
+                <i data-lucide="plus" style="width:14px;height:14px"></i> Agregar
+              </button>
+            </div>
+          </div>
+          <div class="actions-bar">
+            <button class="btn-save" onclick="saveAll()">
+              <i data-lucide="save" style="width:16px;height:16px"></i> Guardar
+            </button>
+          </div>
+        </div>
+
+        <!-- ── PANEL ESPECIALES ── -->
+        <div class="panel" id="panelEspeciales">
+          <div class="panel-header" style="background:var(--accent2,#A07830)">
+            <div class="ph-icon" style="background:rgba(255,255,255,0.15)">
+              <i data-lucide="star" style="width:16px;height:16px;color:white"></i>
+            </div>
+            <h3 style="color:white">Platos Especiales</h3>
+          </div>
+          <div class="panel-body">
+            <p style="font-size:13px;color:var(--muted);margin-bottom:14px">Activa los platos especiales del día con su precio individual. Tienen precio distinto al plato del día.</p>
+            <div class="items-list" id="listEspeciales"></div>
+            <div class="add-item-form" style="flex-wrap:wrap;gap:8px">
+              <input type="text" class="add-input" id="newEspNombre" placeholder="Nombre del plato" style="min-width:140px">
+              <input type="text" class="add-input" id="newEspDesc"   placeholder="Descripción corta" style="min-width:140px">
+              <input type="number" class="add-input" id="newEspPrecio" placeholder="Precio RD$" style="width:110px;flex:none">
+              <button class="btn-add" onclick="addEspecial()">
+                <i data-lucide="plus" style="width:14px;height:14px"></i> Agregar
+              </button>
+            </div>
+          </div>
+          <div class="actions-bar">
+            <button class="btn-save" onclick="saveAll()">
+              <i data-lucide="save" style="width:16px;height:16px"></i> Guardar
+            </button>
+          </div>
+        </div>
+
+      </div><!-- end main-content -->
+    </main>
+  </div>
+</div>
+
+<script>
+/* ─────────────────────────────────────────────
+   CONFIG
+───────────────────────────────────────────── */
+const ADMIN_PASS  = 'azafran2025';
+const STORAGE_KEY = 'azafran_menu_v1';
+
+const DEFAULT_MENU = {
+  mensaje:     '¡Bienvenidos! Hoy tenemos el mejor menú criollo para ti 🍽️',
+  precioPlato: '150',
+  categorias: {
+    bases: [
+      { id:'arroz-blanco',       nombre:'Arroz Blanco',        activo:true  },
+      { id:'moro-habichuelas',   nombre:'Moro de Habichuelas', activo:false },
+      { id:'moro-guandules',     nombre:'Moro de Guandules',   activo:false },
+      { id:'locrio-pollo',       nombre:'Locrio de Pollo',     activo:false },
+      { id:'locrio-cerdo',       nombre:'Locrio de Cerdo',     activo:false },
+    ],
+    caldos: [
+      { id:'habichuelas-negras', nombre:'Habichuelas Negras',  activo:true  },
+      { id:'habichuelas-rojas',  nombre:'Habichuelas Rojas',   activo:false },
+      { id:'guandules-coco',     nombre:'Guandules con Coco',  activo:false },
+      { id:'sin-caldo',          nombre:'Sin Habichuelas',     activo:true  },
+    ],
+    proteinas: [
+      { id:'pollo-guisado',  nombre:'Pollo Guisado',  activo:true  },
+      { id:'pollo-frito',    nombre:'Pollo Frito',    activo:true  },
+      { id:'cerdo-frito',    nombre:'Cerdo Frito',    activo:false },
+      { id:'cerdo-guisado',  nombre:'Cerdo Guisado',  activo:false },
+      { id:'res-guisada',    nombre:'Res Guisada',    activo:false },
+      { id:'pescado-frito',  nombre:'Pescado Frito',  activo:false },
+      { id:'salami-huevo',   nombre:'Salami y Huevo', activo:false },
+      { id:'chuleta',        nombre:'Chuleta Frita',  activo:false },
+    ],
+    guarniciones: [
+      { id:'ensalada',     nombre:'Ensalada Verde', activo:true  },
+      { id:'tostones',     nombre:'Tostones',       activo:false },
+      { id:'maduros',      nombre:'Maduros',        activo:false },
+      { id:'papas-fritas', nombre:'Papas Fritas',   activo:false },
+      { id:'yuca',         nombre:'Yuca Hervida',   activo:false },
+      { id:'aguacate',     nombre:'Aguacate',       activo:false },
+    ],
+    especiales: [
+      { id:'sancocho', nombre:'Sancocho',        precio:'200', descripcion:'Con sus viandas',          activo:false },
+      { id:'asopao',   nombre:'Asopao de Pollo', precio:'180', descripcion:'Servido con pan',          activo:false },
+      { id:'mondongo', nombre:'Mondongo',         precio:'200', descripcion:'Con viandas al gusto',     activo:false },
+      { id:'chivo',    nombre:'Chivo Liniero',   precio:'280', descripcion:'Especialidad de la casa',  activo:false },
+      { id:'pernil',   nombre:'Pernil Asado',    precio:'250', descripcion:'Con moro y ensalada',      activo:false },
+    ],
+  },
+};
+
+let menuData = null;
+
+/* ─────────────────────────────────────────────
+   AUTH
+───────────────────────────────────────────── */
+function doLogin() {
+  const pass = document.getElementById('loginPass').value;
+  if (pass === ADMIN_PASS) {
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('dashboard').style.display  = 'block';
+    sessionStorage.setItem('azafran_auth', '1');
+    initDashboard();
+  } else {
+    document.getElementById('loginError').style.display = 'block';
+    document.getElementById('loginPass').value = '';
+    document.getElementById('loginPass').focus();
+  }
+}
+
+function logout() {
+  sessionStorage.removeItem('azafran_auth');
+  location.reload();
+}
+
+/* ─────────────────────────────────────────────
+   INIT
+───────────────────────────────────────────── */
+function initDashboard() {
+  const stored = localStorage.getItem(STORAGE_KEY);
+  menuData = stored ? JSON.parse(stored) : JSON.parse(JSON.stringify(DEFAULT_MENU));
+
+  // Set form values
+  document.getElementById('inputMensaje').value = menuData.mensaje;
+  document.getElementById('inputPrecio').value  = menuData.precioPlato;
+  document.getElementById('inputWA').value      = '18495641828';
+
+  // Date
+  document.getElementById('topbarDate').textContent = new Date().toLocaleDateString('es-DO',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+
+  // Build lists
+  renderList('listBases',        menuData.categorias.bases,        'bases');
+  renderList('listCaldos',       menuData.categorias.caldos,       'caldos');
+  renderList('listProteinas',    menuData.categorias.proteinas,    'proteinas');
+  renderList('listGuarniciones', menuData.categorias.guarniciones, 'guarniciones');
+  renderEspeciales('listEspeciales', menuData.categorias.especiales);
+
+  safeIcons();
+
+  // Auto-check session
+  if (sessionStorage.getItem('azafran_auth') === '1') {
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('dashboard').style.display   = 'block';
+  }
+}
+
+/* ─────────────────────────────────────────────
+   RENDER LISTS
+───────────────────────────────────────────── */
+function renderList(containerId, items, catKey) {
+  const c = document.getElementById(containerId);
+  if (!items.length) { c.innerHTML = '<p style="font-size:13px;color:var(--muted);padding:8px">No hay items. Agrega uno abajo.</p>'; return; }
+  c.innerHTML = items.map((it, idx) => `
+    <div class="item-row ${it.activo ? 'active-item' : ''}" id="row-${catKey}-${idx}">
+      <div class="item-name-wrap">
+        <input class="edit-field"
+          value="${it.nombre.replace(/"/g,'&quot;')}"
+          placeholder="Nombre del item"
+          oninput="menuData.categorias['${catKey}'][${idx}].nombre = this.value">
+      </div>
+      <label class="toggle-switch">
+        <input type="checkbox" ${it.activo ? 'checked' : ''} onchange="toggleItem('${catKey}',${idx},this.checked)">
+        <span class="toggle-slider"></span>
+      </label>
+      <button class="item-delete" onclick="deleteItem('${catKey}',${idx})" title="Eliminar">
+        <i data-lucide="trash-2" style="width:14px;height:14px"></i>
+      </button>
+    </div>
+  `).join('');
+  safeIcons();
+}
+
+function renderEspeciales(containerId, items) {
+  const c = document.getElementById(containerId);
+  if (!items.length) { c.innerHTML = '<p style="font-size:13px;color:var(--muted);padding:8px">No hay platos especiales. Agrega uno abajo.</p>'; return; }
+  c.innerHTML = items.map((it, idx) => `
+    <div class="item-row ${it.activo ? 'active-item' : ''}" id="row-especiales-${idx}">
+      <div class="item-name-wrap">
+        <input class="edit-field"
+          value="${it.nombre.replace(/"/g,'&quot;')}"
+          placeholder="Nombre del plato"
+          oninput="menuData.categorias.especiales[${idx}].nombre = this.value">
+        <input class="edit-field edit-field-desc"
+          value="${it.descripcion.replace(/"/g,'&quot;')}"
+          placeholder="Descripción (ej: Con sus viandas)"
+          oninput="menuData.categorias.especiales[${idx}].descripcion = this.value">
+      </div>
+      <div class="precio-wrap">
+        <span class="precio-prefix">RD$</span>
+        <input class="edit-field edit-field-precio"
+          type="number" min="0"
+          value="${it.precio}"
+          placeholder="0"
+          oninput="menuData.categorias.especiales[${idx}].precio = this.value">
+      </div>
+      <label class="toggle-switch">
+        <input type="checkbox" ${it.activo ? 'checked' : ''} onchange="toggleItem('especiales',${idx},this.checked)">
+        <span class="toggle-slider"></span>
+      </label>
+      <button class="item-delete" onclick="deleteItem('especiales',${idx})" title="Eliminar">
+        <i data-lucide="trash-2" style="width:14px;height:14px"></i>
+      </button>
+    </div>
+  `).join('');
+  safeIcons();
+}
+
+/* ─────────────────────────────────────────────
+   ITEM OPERATIONS
+───────────────────────────────────────────── */
+function toggleItem(catKey, idx, value) {
+  menuData.categorias[catKey][idx].activo = value;
+  const row = document.getElementById(`row-${catKey}-${idx}`);
+  if (row) row.classList.toggle('active-item', value);
+}
+
+function deleteItem(catKey, idx) {
+  if (!confirm('¿Eliminar este item?')) return;
+  menuData.categorias[catKey].splice(idx, 1);
+  const listMap = { bases:'listBases', caldos:'listCaldos', proteinas:'listProteinas', guarniciones:'listGuarniciones', especiales:'listEspeciales' };
+  if (catKey === 'especiales') renderEspeciales(listMap[catKey], menuData.categorias[catKey]);
+  else renderList(listMap[catKey], menuData.categorias[catKey], catKey);
+}
+
+function addItem(catKey, inputId) {
+  const input = document.getElementById(inputId);
+  const nombre = input.value.trim();
+  if (!nombre) return;
+  const id = nombre.toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9-]/g,'') + '-' + Date.now();
+  menuData.categorias[catKey].push({ id, nombre, activo: true });
+  const listMap = { bases:'listBases', caldos:'listCaldos', proteinas:'listProteinas', guarniciones:'listGuarniciones' };
+  renderList(listMap[catKey], menuData.categorias[catKey], catKey);
+  input.value = '';
+}
+
+function addEspecial() {
+  const nombre  = document.getElementById('newEspNombre').value.trim();
+  const desc    = document.getElementById('newEspDesc').value.trim();
+  const precio  = document.getElementById('newEspPrecio').value.trim();
+  if (!nombre || !precio) { alert('Nombre y precio son requeridos.'); return; }
+  const id = nombre.toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9-]/g,'') + '-' + Date.now();
+  menuData.categorias.especiales.push({ id, nombre, descripcion: desc || '', precio, activo: true });
+  renderEspeciales('listEspeciales', menuData.categorias.especiales);
+  document.getElementById('newEspNombre').value = '';
+  document.getElementById('newEspDesc').value   = '';
+  document.getElementById('newEspPrecio').value  = '';
+}
+
+/* ─────────────────────────────────────────────
+   SAVE
+───────────────────────────────────────────── */
+function saveAll() {
+  // Read form values
+  menuData.mensaje     = document.getElementById('inputMensaje').value.trim() || menuData.mensaje;
+  menuData.precioPlato = document.getElementById('inputPrecio').value.trim()  || menuData.precioPlato;
+
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(menuData));
+    showSaveBanner();
+  } catch(e) { alert('Error al guardar. Por favor recarga la página.'); }
+}
+
+function showSaveBanner() {
+  const b = document.getElementById('saveBanner');
+  b.classList.add('show');
+  setTimeout(() => b.classList.remove('show'), 3500);
+}
+
+/* ─────────────────────────────────────────────
+   NAVIGATION
+───────────────────────────────────────────── */
+const panelTitles = {
+  panelGeneral:     'Configuración General',
+  panelBases:       'Bases del Plato',
+  panelCaldos:      'Habichuelas / Guandules',
+  panelProteinas:   'Proteínas',
+  panelGuarniciones:'Guarniciones',
+  panelEspeciales:  'Platos Especiales ⭐',
+};
+
+function showPanel(panelId, navEl) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.sidebar-item').forEach(n => n.classList.remove('active'));
+  document.getElementById(panelId).classList.add('active');
+  navEl.classList.add('active');
+  document.getElementById('pageTitle').textContent = panelTitles[panelId] || '';
+  // close sidebar on mobile
+  document.getElementById('sidebar').classList.remove('open');
+}
+
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+}
+
+/* ─────────────────────────────────────────────
+   BOOT
+───────────────────────────────────────────── */
+function safeIcons() {
+  if (typeof lucide !== 'undefined') safeIcons();
+}
+
+function boot() {
+  if (sessionStorage.getItem('azafran_auth') === '1') {
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('dashboard').style.display   = 'block';
+    initDashboard();
+  } else {
+    safeIcons();
+    document.getElementById('loginPass').focus();
+  }
+}
+
+document.addEventListener('DOMContentLoaded', boot);
+</script>
+<script src="https://unpkg.com/lucide@0.383.0/dist/umd/lucide.min.js" onload="safeIcons()"></script>
+</body>
+</html>
